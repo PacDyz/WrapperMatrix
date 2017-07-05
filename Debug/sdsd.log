@@ -1,0 +1,20 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (sdsd.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  WrapperMatrix.cpp
+c:\users\karol\desktop\nowe repo\sdsd\sdsd\wrappermatrix.cpp(40): warning C4018: '<': signed/unsigned mismatch
+  c:\users\karol\desktop\nowe repo\sdsd\sdsd\wrappermatrix.cpp(37): note: while compiling class template member function 'void WrapperMatrix<int>::pushColumn(const std::vector<int,std::allocator<_Ty>> &&)'
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\karol\desktop\nowe repo\sdsd\sdsd\wrappermatrix.cpp(65): note: see reference to function template instantiation 'void WrapperMatrix<int>::pushColumn(const std::vector<int,std::allocator<_Ty>> &&)' being compiled
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\karol\desktop\nowe repo\sdsd\sdsd\wrappermatrix.cpp(62): note: see reference to class template instantiation 'WrapperMatrix<int>' being compiled
+c:\users\karol\desktop\nowe repo\sdsd\sdsd\wrappermatrix.cpp(49): warning C4018: '<': signed/unsigned mismatch
+  c:\users\karol\desktop\nowe repo\sdsd\sdsd\wrappermatrix.cpp(48): note: while compiling class template member function 'void WrapperMatrix<int>::display(void)'
+  c:\users\karol\desktop\nowe repo\sdsd\sdsd\wrappermatrix.cpp(73): note: see reference to function template instantiation 'void WrapperMatrix<int>::display(void)' being compiled
+c:\users\karol\desktop\nowe repo\sdsd\sdsd\wrappermatrix.cpp(51): warning C4018: '<': signed/unsigned mismatch
+  sdsd.vcxproj -> C:\Users\Karol\Desktop\nowe repo\sdsd\Debug\WrapperMatrix.exe
+  sdsd.vcxproj -> C:\Users\Karol\Desktop\nowe repo\sdsd\Debug\WrapperMatrix.pdb (Full PDB)
