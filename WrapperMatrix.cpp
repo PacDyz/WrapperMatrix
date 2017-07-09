@@ -22,13 +22,13 @@ class WrapperMatrix
 public:
 	WrapperMatrix(const int& weight, const int& length);
 	template<typename U>
-	std::enable_if_t<decay_equiv<U, std::vector<T>>::value> pushLine(const U&&);
+	std::enable_if_t<decay_equiv<U, std::vector<T>>::value> pushLine(U&&);
 //	template<typename U>
 //	std::enable_if_t<is_std_vector<std::decay_t<U>>::value> pushColumn(const U&&);
 	template<typename U>
-	std::enable_if_t<decay_equiv<U, std::vector<T>>::value> pushColumn(const U&&);
+	std::enable_if_t<decay_equiv<U, std::vector<T>>::value> pushColumn(U&&);
 	template <typename U>
-	std::enable_if_t<decay_equiv<U, WrapperMatrix<T>>::value, WrapperMatrix<T>> operator+(const U&&);
+	std::enable_if_t<decay_equiv<U, WrapperMatrix<T>>::value, WrapperMatrix<T>> operator+(U&&);
 	void fillMatrix(const T&&);
 	void display();
 private:
@@ -42,22 +42,22 @@ WrapperMatrix<T>::WrapperMatrix(const int& weight, const int& length)
 template<typename T>
 template <typename U>
 std::enable_if_t<decay_equiv<U, std::vector<T>>::value>
-WrapperMatrix<T>::pushLine(const U&& newLine)
+WrapperMatrix<T>::pushLine(U&& newLine)
 {
 	if (newLine.size() == this->matrix.at(0).size())
-		matrix.emplace_back(std::move(newLine));
+		matrix.emplace_back(std::forward<U>(newLine));
 	else
 		throw std::invalid_argument("Invalid syntax");
 }
 template<typename T>
 template<typename U>
 std::enable_if_t<decay_equiv<U, std::vector<T>>::value>
-WrapperMatrix<T>::pushColumn(const U&& newColumn)
+WrapperMatrix<T>::pushColumn(U&& newColumn)
 {
 	if (newColumn.size() == this->matrix.size())
 	{
 		for (int i = 0; i < matrix.size(); ++i)
-			matrix.at(i).emplace_back(std::move(newColumn.at(i)));
+			matrix.at(i).emplace_back(std::forward<T>(newColumn.at(i)));
 	}
 	else
 		throw std::invalid_argument("Invalid syntax");
@@ -75,18 +75,23 @@ void WrapperMatrix<T>::display()
 template<typename T>
 template <typename U>
 std::enable_if_t<decay_equiv<U, WrapperMatrix<T>>::value, WrapperMatrix<T>>
-WrapperMatrix<T>::operator+(const U&& matrix1)
+WrapperMatrix<T>::operator+(U&& wrapperMatrix)
 {
-	if(matrix.size() != matrix1.matrix.size() || matrix.at(0).size() != matrix1.matrix.at(0).size())
+	WrapperMatrix resultWrapperMatrix(*this);
+	unsigned int weightResultMatrix = resultWrapperMatrix.matrix.size();
+	unsigned int weightInputMatrix = wrapperMatrix.matrix.size();
+	unsigned int lengthResultMatrix = resultWrapperMatrix.matrix.at(0).size();
+	unsigned int lengthInputMatrix = wrapperMatrix.matrix.at(0).size();
+	if(weightResultMatrix != weightInputMatrix || lengthResultMatrix != lengthInputMatrix)
 		throw std::invalid_argument("Invalid syntax");
-	for (int i = 0; i < matrix1.matrix.size(); ++i)
+	for (int i = 0; i < weightInputMatrix; ++i)
 	{
-		for (int j = 0; j < matrix1.matrix.at(0).size(); ++j)
+		for (int j = 0; j < lengthInputMatrix; ++j)
 		{
-			matrix.at(i).at(j) += matrix1.matrix.at(i).at(j);
+			resultWrapperMatrix.matrix.at(i).at(j) += std::forward<T>(wrapperMatrix.matrix.at(i).at(j));
 		}
 	}
-	return *this;
+	return resultWrapperMatrix;
 }
 template<typename T>
 void WrapperMatrix<T>::fillMatrix(const T&& number)
