@@ -1,57 +1,71 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (sdsd.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   main.cpp
-c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(123): warning C4018: '<': signed/unsigned mismatch
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(122): note: while compiling class template member function 'void WrapperMatrix<int>::fillMatrix(const T &&)'
+c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(125): warning C4018: '<': signed/unsigned mismatch
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(124): note: while compiling class template member function 'void WrapperMatrix<int>::fillMatrix(const T &&)'
           with
           [
               T=int
           ]
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(57): note: see reference to function template instantiation 'void WrapperMatrix<int>::fillMatrix(const T &&)' being compiled
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(58): note: see reference to function template instantiation 'void WrapperMatrix<int>::fillMatrix(const T &&)' being compiled
           with
           [
               T=int
           ]
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(23): note: see reference to class template instantiation 'WrapperMatrix<int>' being compiled
-c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(71): warning C4018: '<': signed/unsigned mismatch
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(70): note: while compiling class template member function 'void WrapperMatrix<int>::display(void)'
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(95): note: see reference to function template instantiation 'void WrapperMatrix<int>::display(void)' being compiled
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(24): note: see reference to class template instantiation 'WrapperMatrix<int>' being compiled
 c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(73): warning C4018: '<': signed/unsigned mismatch
-c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(62): warning C4018: '<': signed/unsigned mismatch
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(44): note: see reference to function template instantiation 'void WrapperMatrix<int>::pushColumn<std::vector<int,std::allocator<_Ty>>>(U &&)' being compiled
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(72): note: while compiling class template member function 'void WrapperMatrix<int>::display(void)'
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(96): note: see reference to function template instantiation 'void WrapperMatrix<int>::display(void)' being compiled
+c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(75): warning C4018: '<': signed/unsigned mismatch
+c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(64): warning C4018: '<': signed/unsigned mismatch
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(45): note: see reference to function template instantiation 'void WrapperMatrix<int>::pushColumn<std::vector<int,std::allocator<_Ty>>>(U &&)' being compiled
           with
           [
               _Ty=int,
               U=std::vector<int,std::allocator<int>>
           ]
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(44): note: see reference to function template instantiation 'void WrapperMatrix<int>::pushColumn<std::vector<int,std::allocator<_Ty>>>(U &&)' being compiled
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(45): note: see reference to function template instantiation 'void WrapperMatrix<int>::pushColumn<std::vector<int,std::allocator<_Ty>>>(U &&)' being compiled
           with
           [
               _Ty=int,
               U=std::vector<int,std::allocator<int>>
-          ]
-c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(90): warning C4018: '<': signed/unsigned mismatch
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(90): note: see reference to function template instantiation 'WrapperMatrix<int> WrapperMatrix<int>::operator +<WrapperMatrix<int>>(U &&)' being compiled
-          with
-          [
-              U=WrapperMatrix<int>
-          ]
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(90): note: see reference to function template instantiation 'WrapperMatrix<int> WrapperMatrix<int>::operator +<WrapperMatrix<int>>(U &&)' being compiled
-          with
-          [
-              U=WrapperMatrix<int>
           ]
 c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(92): warning C4018: '<': signed/unsigned mismatch
-c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(111): warning C4018: '<': signed/unsigned mismatch
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(105): note: see reference to function template instantiation 'WrapperMatrix<int> WrapperMatrix<int>::operator -<WrapperMatrix<int>>(U &&)' being compiled
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(91): note: see reference to function template instantiation 'WrapperMatrix<int> WrapperMatrix<int>::operator +<WrapperMatrix<int>>(U &&)' being compiled
           with
           [
               U=WrapperMatrix<int>
           ]
-  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(105): note: see reference to function template instantiation 'WrapperMatrix<int> WrapperMatrix<int>::operator -<WrapperMatrix<int>>(U &&)' being compiled
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(91): note: see reference to function template instantiation 'WrapperMatrix<int> WrapperMatrix<int>::operator +<WrapperMatrix<int>>(U &&)' being compiled
           with
           [
               U=WrapperMatrix<int>
           ]
+c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(94): warning C4018: '<': signed/unsigned mismatch
 c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(113): warning C4018: '<': signed/unsigned mismatch
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(106): note: see reference to function template instantiation 'WrapperMatrix<int> WrapperMatrix<int>::operator -<WrapperMatrix<int>>(U &&)' being compiled
+          with
+          [
+              U=WrapperMatrix<int>
+          ]
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(106): note: see reference to function template instantiation 'WrapperMatrix<int> WrapperMatrix<int>::operator -<WrapperMatrix<int>>(U &&)' being compiled
+          with
+          [
+              U=WrapperMatrix<int>
+          ]
+c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(115): warning C4018: '<': signed/unsigned mismatch
+c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(139): warning C4018: '<': signed/unsigned mismatch
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(152): note: see reference to function template instantiation 'void WrapperMatrix<int>::operator +=<WrapperMatrix<int>&>(U)' being compiled
+          with
+          [
+              U=WrapperMatrix<int> &
+          ]
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(152): note: see reference to function template instantiation 'void WrapperMatrix<int>::operator +=<WrapperMatrix<int>&>(U)' being compiled
+          with
+          [
+              U=WrapperMatrix<int> &
+          ]
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(117): note: see reference to function template instantiation 'void WrapperMatrix<int>::addd<WrapperMatrix<int>&,WrapperMatrix<int>&>(WrapperMatrix<int> &,WrapperMatrix<int> &)' being compiled
+  c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrixtest.h(117): note: see reference to function template instantiation 'void WrapperMatrix<int>::addd<WrapperMatrix<int>&,WrapperMatrix<int>&>(WrapperMatrix<int> &,WrapperMatrix<int> &)' being compiled
+c:\users\karol\desktop\nowe repo\sdsd\wrappermatrix\wrappermatrix.h(141): warning C4018: '<': signed/unsigned mismatch
   sdsd.vcxproj -> C:\Users\Karol\Desktop\nowe repo\sdsd\WrapperMatrix\Debug\WrapperMatrix.exe
   sdsd.vcxproj -> C:\Users\Karol\Desktop\nowe repo\sdsd\WrapperMatrix\Debug\WrapperMatrix.pdb (Full PDB)
