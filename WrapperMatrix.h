@@ -2,6 +2,7 @@
 #ifndef FriendWrapperMatrixTest
 #define FriendWrapperMatrixTest
 #endif 
+//std::enable_if_t<std::is_same<std::decay<Us>::type..., std::vector<T>>>
 #include <iostream>
 #include <vector>
 #include <exception>
@@ -13,14 +14,25 @@ template <typename T, typename U>
 struct decay_equiv :
 	std::is_same<typename std::decay<T>::type, U>::type
 {};
+template < bool... > struct all;
+template < > struct all<> : std::true_type {};
+template < bool B, bool... Rest > struct all<B, Rest...>
+{
+	constexpr static bool value = B && all<Rest...>::value;
+};
+
+template<typename T> struct is_vector : public std::false_type {};
+
+template<typename T, typename A>
+struct is_vector<std::vector<T, A>> : public std::true_type {};
 
 template< typename T >
 class WrapperMatrix
 {
 public:
 	WrapperMatrix(const int& weight, const int& length);
-	template<typename U>
-	std::enable_if_t<decay_equiv<U, std::vector<T>>::value> pushLine(U&&);
+	template<typename U, typename = typename std::enable_if<is_vector<std::decay_t<U>>::value>::type >
+	void pushLine(U&&);
 	//	template<typename U>
 	//	std::enable_if_t<is_std_vector<std::decay_t<U>>::value> pushColumn(const U&&);
 	template<typename U>
@@ -33,21 +45,26 @@ public:
 	void display();
 	template <typename U>
 	std::enable_if_t<decay_equiv<U, WrapperMatrix<T>>::value> operator+=(U&&);
-	template<typename... Us>
-	void addd(Us &&... u);					// without SFINAE
+	template<typename... Us, typename = typename std::enable_if< all< is_WrapperMatrix< std::decay_t<Us> >::value... >::value >::type >
+	void add(Us &&... u);					// without SFINAE
 private:
 	FriendWrapperMatrixTest;
 	std::vector<std::vector<T>> matrix;
 };
+
+template<typename T> struct is_WrapperMatrix : public std::false_type {};
+
+template<typename T>
+struct is_WrapperMatrix<WrapperMatrix<T>> : public std::true_type {};
+
 template<typename T>
 WrapperMatrix<T>::WrapperMatrix(const int& weight, const int& length)
 {
 	this->matrix = std::vector<std::vector<T>>(weight, std::vector<T>(length));
 }
 template<typename T>
-template <typename U>
-std::enable_if_t<decay_equiv<U, std::vector<T>>::value>
-WrapperMatrix<T>::pushLine(U&& newLine)
+template <typename U, typename = typename std::enable_if<is_vector<std::decay_t<U>>::value>::type >
+void WrapperMatrix<T>::pushLine(U&& newLine)
 {
 	if (newLine.size() == this->matrix.at(0).size())
 		matrix.emplace_back(std::forward<U>(newLine));
@@ -146,8 +163,8 @@ WrapperMatrix<T>::operator+=(U&& wrapperMatrix)
 }
 
 template<typename T>
-template<typename... Us>
-void WrapperMatrix<T>::addd(Us &&... u)
+template<typename... Us, typename = typename std::enable_if< all< is_WrapperMatrix< std::decay_t<Us> >::value... >::value >::type >
+void WrapperMatrix<T>::add(Us &&... u)
 {
 	const int dummy[] = { 0, ((*this += std::forward<Us>(u)), 0)... };
 	static_cast<void>(dummy);

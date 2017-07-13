@@ -114,6 +114,6 @@ TEST_F(wrapperMatrixTest, shouldAddALotOfWrapperMatrix)
 	wrapperMatrix1.fillMatrix(1);
 	wrapperMatrix2.fillMatrix(1);
 	wrapperMatrix3.fillMatrix(2);
-	wrapperMatrixInt->addd(wrapperMatrix2, wrapperMatrix1);
+	wrapperMatrixInt->add(wrapperMatrix2, wrapperMatrix1);
 	EXPECT_EQ(wrapperMatrixInt->matrix, wrapperMatrix3.matrix);
 }
