@@ -14,7 +14,10 @@
 	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByNumber);\
 	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithTheSameLengthAndWeight);\
 	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight1);\
-	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight2);
+	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight2);\
+	FRIEND_TEST(wrapperMatrixTest, shouldCreateVectorOfVectorsWithInitializerListAsPatameter);\
+	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight3);\
+	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight4);
 #include "WrapperMatrix.h"
 class wrapperMatrixTest : public ::testing::Test
 {
@@ -159,4 +162,24 @@ TEST_F(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWit
 	wrapperMatrix3.fillMatrix(8);
 	wrapperMatrix1.multiplyWrapperMatrix(wrapperMatrix2);
 	EXPECT_EQ(wrapperMatrix3.matrix, wrapperMatrix1.matrix);
+}
+TEST_F(wrapperMatrixTest, shouldCreateVectorOfVectorsWithInitializerListAsPatameter)
+{
+	WrapperMatrix<int> wrapper{ { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } };
+}
+TEST_F(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight3)
+{
+	WrapperMatrix<int> wrapperMatrix1{ { 1, 0, 2 }, { -1, 3, 1 } };
+	WrapperMatrix<int> wrapperMatrix2{ { 3, 1 }, { 2, 1 }, { 1, 0 } };
+	WrapperMatrix<int> wrapperMatrix3{ { 5, 1 }, { 4, 2 } };
+	wrapperMatrix1.multiplyWrapperMatrix(wrapperMatrix2);
+	EXPECT_EQ(wrapperMatrix3.matrix, wrapperMatrix1.matrix);
+}
+TEST_F(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight4)
+{
+	WrapperMatrix<int> wrapperMatrix1{ { 1,0,2 }, { -1, 3, 1 } };
+	WrapperMatrix<int> wrapperMatrix2{ { 3, 1 }, { 2, 1 }, { 1, 0 } };
+	WrapperMatrix<int> wrapperMatrix3{ { 2, 3, 7 }, { 1, 3, 5 }, { 1, 0, 2 } };
+	wrapperMatrix2.multiplyWrapperMatrix(wrapperMatrix1);
+	EXPECT_EQ(wrapperMatrix3.matrix, wrapperMatrix2.matrix);
 }

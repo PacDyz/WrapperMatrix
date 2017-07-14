@@ -35,10 +35,9 @@ class WrapperMatrix
 {
 public:
 	WrapperMatrix(const int& weight, const int& length);
+	WrapperMatrix(const std::initializer_list<std::vector<T>>&);
 	template<typename U, typename = typename std::enable_if<is_vector<std::decay_t<U>>::value>::type >
 	void pushLine(U&&);
-	//	template<typename U>
-	//	std::enable_if_t<is_std_vector<std::decay_t<U>>::value> pushColumn(const U&&);
 	template<typename U>
 	std::enable_if_t<decay_equiv<U, std::vector<T>>::value> pushColumn(U&&);
 	template <typename U>
@@ -66,10 +65,13 @@ template<typename T>
 struct is_WrapperMatrix<WrapperMatrix<T>> : public std::true_type {};
 
 template<typename T>
-WrapperMatrix<T>::WrapperMatrix(const int& weight, const int& length)
-{
-	this->matrix = std::vector<std::vector<T>>(weight, std::vector<T>(length));
-}
+WrapperMatrix<T>::WrapperMatrix(const int& weight, const int& length) : 
+	matrix(std::vector<std::vector<T>>(weight, std::vector<T>(length))) {}
+
+template<typename T>
+WrapperMatrix<T>::WrapperMatrix( const std::initializer_list<std::vector<T>>& initializerList) 
+	: matrix(initializerList) {}
+
 template<typename T>
 template <typename U, typename = typename std::enable_if<is_vector<std::decay_t<U>>::value>::type >
 void WrapperMatrix<T>::pushLine(U&& newLine)
@@ -79,6 +81,7 @@ void WrapperMatrix<T>::pushLine(U&& newLine)
 	else
 		throw std::invalid_argument("Invalid syntax");
 }
+
 template<typename T>
 template<typename U>
 std::enable_if_t<decay_equiv<U, std::vector<T>>::value>
@@ -192,57 +195,18 @@ WrapperMatrix<T> WrapperMatrix<T>::operator*(U&& u)
 }
 template<typename T>
 template <typename W>
-std::enable_if_t<decay_equiv<W, WrapperMatrix<T>>::value> WrapperMatrix<T>::multiplyWrapperMatrix(W&& W)
+std::enable_if_t<decay_equiv<W, WrapperMatrix<T>>::value> WrapperMatrix<T>::multiplyWrapperMatrix(W&& w)
 {
-/*	int result = 0;
-	int columnW = 0; 
-	int lineW = 0; //bedzie trza zrobiæ tak jak dla columnW
-	if (this->matrix.size() == W.matrix.at(0).size() && this->matrix.at(0).size() == W.matrix.size())
-	{
-		if (this->matrix.size() > this->matrix.at(0).size())
-		{
-			for (int i = 0; i < this->matrix.size(); ++i)
-			{
-				this->matrix.at(i).resize(this->matrix.size());
-				W.matrix.resize(this->matrix.at(0).size());
-			}
-		}
-		for (int j = 0; j < this->matrix.size(); ++j)
-		{
-			for (int i = 0; i < vectorLenght; ++i)
-			{
-				result += this->matrix.at(j).at(i) * W.matrix.at(i).at(j);
-				std::cout << "at(" << j << ").at( " << i << ") "<< std::endl;
-				std::cout << this->matrix.at(j).at(i) << "*" << W.matrix.at(i).at(j) << std::endl;
-				std::cout << this->matrix.at(j).at(i) * W.matrix.at(i).at(j) << std::endl;
-			}
-			this->matrix.at(j).at(columnW) = result;
-			std::cout << "at(" <<  j << ").at( " << columnW << ") = " << this->matrix.at(j).at(columnW) << std::endl;
-			if (columnW < this->matrix.size() - 1)
-			{
-				++columnW;
-				--j;
-			}
-			else
-			{
-				this->matrix.at(j).resize(this->matrix.size());
-				columnW = 0;
-			}
-			result = 0;
-		}
-	}
-	else
-		throw std::invalid_argument("Invalid syntax");*/
-	WrapperMatrix<T> wrapperMatrix(this->matrix.size(), this->matrix.size());
+	WrapperMatrix<T> wrapperMatrix(this->matrix.size(), w.matrix.at(0).size());
 	int result = 0;
 	int column = 0;
-	if (this->matrix.size() == W.matrix.at(0).size() && this->matrix.at(0).size() == W.matrix.size())
+	if (this->matrix.size() == w.matrix.at(0).size() && this->matrix.at(0).size() == w.matrix.size())
 	{
 		for (int i = 0; i < this->matrix.size(); ++i)
 		{
 			for (int j = 0; j < this->matrix.at(0).size(); ++j)
 			{
-				result += this->matrix.at(i).at(j) * W.matrix.at(j).at(column);
+				result += this->matrix.at(i).at(j) * w.matrix.at(j).at(column);
 			}
 			wrapperMatrix.matrix.at(i).at(column) = result;
 			if (column != this->matrix.size() - 1)
@@ -257,5 +221,5 @@ std::enable_if_t<decay_equiv<W, WrapperMatrix<T>>::value> WrapperMatrix<T>::mult
 	}
 	else
 		throw std::invalid_argument("Invalid syntax"); 
-	this->matrix = wrapperMatrix.matrix;
+	this->matrix = std::move(wrapperMatrix.matrix);
 }
