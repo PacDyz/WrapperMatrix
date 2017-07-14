@@ -25,6 +25,10 @@ template<typename T> struct is_vector : public std::false_type {};
 
 template<typename T, typename A>
 struct is_vector<std::vector<T, A>> : public std::true_type {};
+template<typename T>
+struct is_number : public std::false_type {};
+template<typename T>
+struct is_number<std::is_integral<T>> : public std::true_type {};
 
 template< typename T >
 class WrapperMatrix
@@ -46,7 +50,11 @@ public:
 	template <typename U>
 	std::enable_if_t<decay_equiv<U, WrapperMatrix<T>>::value> operator+=(U&&);
 	template<typename... Us, typename = typename std::enable_if< all< is_WrapperMatrix< std::decay_t<Us> >::value... >::value >::type >
-	void add(Us &&... u);					// without SFINAE
+	void add(Us &&... u);					
+	template<typename U, typename = std::enable_if_t<std::is_arithmetic<U>::value>>
+	WrapperMatrix<T> operator*(U&& u);
+	template <typename W>
+	std::enable_if_t<decay_equiv<W, WrapperMatrix<T>>::value> multiplyWrapperMatrix(W&& w);
 private:
 	FriendWrapperMatrixTest;
 	std::vector<std::vector<T>> matrix;
@@ -168,4 +176,86 @@ void WrapperMatrix<T>::add(Us &&... u)
 {
 	const int dummy[] = { 0, ((*this += std::forward<Us>(u)), 0)... };
 	static_cast<void>(dummy);
+}
+template<typename T>
+template<typename U, typename = std::enable_if_t<std::is_arithmetic<U>::value>>
+WrapperMatrix<T> WrapperMatrix<T>::operator*(U&& u)
+{
+	for (auto& itr : this->matrix)
+	{
+		for (auto& itritr : itr)
+		{
+			itritr *= u;
+		}
+	}
+	return *this;
+}
+template<typename T>
+template <typename W>
+std::enable_if_t<decay_equiv<W, WrapperMatrix<T>>::value> WrapperMatrix<T>::multiplyWrapperMatrix(W&& W)
+{
+/*	int result = 0;
+	int columnW = 0; 
+	int lineW = 0; //bedzie trza zrobiæ tak jak dla columnW
+	if (this->matrix.size() == W.matrix.at(0).size() && this->matrix.at(0).size() == W.matrix.size())
+	{
+		if (this->matrix.size() > this->matrix.at(0).size())
+		{
+			for (int i = 0; i < this->matrix.size(); ++i)
+			{
+				this->matrix.at(i).resize(this->matrix.size());
+				W.matrix.resize(this->matrix.at(0).size());
+			}
+		}
+		for (int j = 0; j < this->matrix.size(); ++j)
+		{
+			for (int i = 0; i < vectorLenght; ++i)
+			{
+				result += this->matrix.at(j).at(i) * W.matrix.at(i).at(j);
+				std::cout << "at(" << j << ").at( " << i << ") "<< std::endl;
+				std::cout << this->matrix.at(j).at(i) << "*" << W.matrix.at(i).at(j) << std::endl;
+				std::cout << this->matrix.at(j).at(i) * W.matrix.at(i).at(j) << std::endl;
+			}
+			this->matrix.at(j).at(columnW) = result;
+			std::cout << "at(" <<  j << ").at( " << columnW << ") = " << this->matrix.at(j).at(columnW) << std::endl;
+			if (columnW < this->matrix.size() - 1)
+			{
+				++columnW;
+				--j;
+			}
+			else
+			{
+				this->matrix.at(j).resize(this->matrix.size());
+				columnW = 0;
+			}
+			result = 0;
+		}
+	}
+	else
+		throw std::invalid_argument("Invalid syntax");*/
+	WrapperMatrix<T> wrapperMatrix(this->matrix.size(), this->matrix.size());
+	int result = 0;
+	int column = 0;
+	if (this->matrix.size() == W.matrix.at(0).size() && this->matrix.at(0).size() == W.matrix.size())
+	{
+		for (int i = 0; i < this->matrix.size(); ++i)
+		{
+			for (int j = 0; j < this->matrix.at(0).size(); ++j)
+			{
+				result += this->matrix.at(i).at(j) * W.matrix.at(j).at(column);
+			}
+			wrapperMatrix.matrix.at(i).at(column) = result;
+			if (column != this->matrix.size() - 1)
+			{
+				--i;
+				++column;
+			}
+			else
+				column = 0;
+			result = 0;
+		}
+	}
+	else
+		throw std::invalid_argument("Invalid syntax"); 
+	this->matrix = wrapperMatrix.matrix;
 }
