@@ -25,10 +25,6 @@ template<typename T> struct is_vector : public std::false_type {};
 
 template<typename T, typename A>
 struct is_vector<std::vector<T, A>> : public std::true_type {};
-template<typename T>
-struct is_number : public std::false_type {};
-template<typename T>
-struct is_number<std::is_integral<T>> : public std::true_type {};
 
 template< typename T >
 class WrapperMatrix
@@ -44,11 +40,13 @@ public:
 	std::enable_if_t<decay_equiv<U, WrapperMatrix<T>>::value, WrapperMatrix<T>> operator+(U&&);
 	template <typename U>
 	std::enable_if_t<decay_equiv<U, WrapperMatrix<T>>::value, WrapperMatrix<T>> operator-(U&&);
-	void fillMatrix(const T&&);
+	template<typename U, typename = typename std::enable_if_t<std::is_same<T, U>::value>>
+	void fillMatrix(const U&&);
 	void display();
 	template <typename U>
 	std::enable_if_t<decay_equiv<U, WrapperMatrix<T>>::value> operator+=(U&&);
-	template<typename... Us, typename = typename std::enable_if< all< is_WrapperMatrix< std::decay_t<Us> >::value... >::value >::type >
+	template<typename... Us,
+		typename = typename std::enable_if< all< is_WrapperMatrix< std::decay_t<Us> >::value... >::value >::type >
 	void add(Us &&... u);					
 	template<typename U, typename = std::enable_if_t<std::is_arithmetic<U>::value>>
 	WrapperMatrix<T> operator*(U&& u);
@@ -148,7 +146,8 @@ WrapperMatrix<T>::operator-(U&& wrapperMatrix)
 	return resultWrapperMatrix;
 }
 template<typename T>
-void WrapperMatrix<T>::fillMatrix(const T&& number)
+template<typename U, typename = typename std::enable_if_t<std::is_same<T,std::decay<U>::type>::value>>
+void WrapperMatrix<T>::fillMatrix(const U&& number)
 {
 	for (int i = 0; i < matrix.size(); ++i)
 		std::fill(matrix.at(i).begin(), matrix.at(i).end(), number);
