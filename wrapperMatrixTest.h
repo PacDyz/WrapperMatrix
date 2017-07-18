@@ -17,7 +17,9 @@
 	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight2);\
 	FRIEND_TEST(wrapperMatrixTest, shouldCreateVectorOfVectorsWithInitializerListAsPatameter);\
 	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight3);\
-	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight4);
+	FRIEND_TEST(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWithOtherLengthAndWeight4);\
+	FRIEND_TEST(wrapperMatrixTest, shouldSubtractTwoVectorOfVectors);\
+	FRIEND_TEST(wrapperMatrixTest, shouldSubtractVectorOfVectors);
 #include "WrapperMatrix.h"
 class wrapperMatrixTest : public ::testing::Test
 {
@@ -182,4 +184,28 @@ TEST_F(wrapperMatrixTest, shouldMultiplyVectorOfVectorsByOtherVectorOfVectorsWit
 	WrapperMatrix<int> wrapperMatrix3{ { 2, 3, 7 }, { 1, 3, 5 }, { 1, 0, 2 } };
 	wrapperMatrix2.multiplyWrapperMatrix(wrapperMatrix1);
 	EXPECT_EQ(wrapperMatrix3.matrix, wrapperMatrix2.matrix);
+}
+TEST_F(wrapperMatrixTest, shouldSubtractTwoVectorOfVectors)
+{
+	WrapperMatrix<int> resultWrapperMatrix(5, 5);
+	resultWrapperMatrix.fillMatrix(3);
+	WrapperMatrix<int> wrapperMatrix1(5, 5);
+	WrapperMatrix<int> wrapperMatrix2(5, 5);
+	WrapperMatrix<int> wrapperMatrix3(5, 5);
+	wrapperMatrix1.fillMatrix(5);
+	wrapperMatrix2.fillMatrix(2);
+	wrapperMatrix3 = wrapperMatrix1 - std::move(wrapperMatrix2);
+	EXPECT_EQ(resultWrapperMatrix.matrix, wrapperMatrix3.matrix);
+}
+
+TEST_F(wrapperMatrixTest, shouldSubtractVectorOfVectors)
+{
+	WrapperMatrix<int> resultWrapperMatrix(5, 5);
+	resultWrapperMatrix.fillMatrix(3);
+	WrapperMatrix<int> wrapperMatrix1(5, 5);
+	WrapperMatrix<int> wrapperMatrix2(5, 5);
+	wrapperMatrix1.fillMatrix(5);
+	wrapperMatrix2.fillMatrix(2);
+	wrapperMatrix1 -= std::move(wrapperMatrix2);
+	EXPECT_EQ(resultWrapperMatrix.matrix, wrapperMatrix1.matrix);
 }
